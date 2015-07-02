@@ -1,0 +1,22 @@
+{{progress-indicator class="progress-wrap progress"
+  passed=3
+  failed=0
+  total=10
+  time="323 ms"
+}}
+
+<div class="reporter">
+  <input type="text" class="filter-tests" placeholder="Filter tests">
+  <ul class="results">
+    {{#each modules as |module|}}
+      {{module-results module=module class="module"}}
+    {{/each}}
+  </ul>
+</div>
+
+{{layout-chooser currentLayout=currentLayout selectCurrentLayout=(action 'selectCurrentLayout')}}
+
+<iframe src=""></iframe>
+
+
+{{!--Could even be a hosted app?--}}

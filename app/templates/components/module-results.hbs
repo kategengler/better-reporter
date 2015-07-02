@@ -1,0 +1,13 @@
+<h2>
+  <a href="#" {{action "toggleExpand"}}><span class="arrow {{if isExpanded 'expanded'}}">&#10095;</span></a>
+  {{module.title}}
+  <span class="test-count">({{module.count}})</span>
+</h2>
+
+{{#if isExpanded}}
+  <ul class="results-tests">
+    {{#each module.tests as |test|}}
+      {{test-results test=test class="test"}}
+    {{/each}}
+  </ul>
+{{/if}}

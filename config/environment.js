@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'test-runner',
+    modulePrefix: 'better-reporter',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
