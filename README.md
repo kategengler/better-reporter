@@ -51,3 +51,18 @@ Specify what it takes to deploy your app.
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
 
+
+## TODO
+
+* Remove #qunit div from test index
+- Config autorun to off, remove, run?
+
+* Host ember reporter app at /test
+- iFrame to /tests
+
+* Testem?
+
+
+First steps
+
+Html file within app, reference JS, etc from reporter app

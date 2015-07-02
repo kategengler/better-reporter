@@ -16,13 +16,28 @@
 
     {{content-for 'head-footer'}}
     {{content-for 'test-head-footer'}}
+    <style>
+      #ember-testing-container {
+         width: auto !important;
+         height: auto !important;
+         border: 0 !important;
+      }
+    </style>
   </head>
   <body>
 
     {{content-for 'body'}}
     {{content-for 'test-body'}}
+    <div id="qunit-testrunner-toolbar" style="display:none;"></div>
     <script src="assets/vendor.js"></script>
     <script src="assets/test-support.js"></script>
+    <script>
+      $('#qunit').remove();
+
+      QUnit.begin(function(details){
+        console.log(details);
+      });
+    </script>
     <script src="assets/better-reporter.js"></script>
     <script src="testem.js"></script>
     <script src="assets/test-loader.js"></script>
