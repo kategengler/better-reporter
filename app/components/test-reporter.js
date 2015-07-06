@@ -6,71 +6,99 @@ export default Ember.Component.extend({
   passed: 0,
   failed: 0,
   total: 0,
-  elapsed: '0ms',
+  elapsed: 0,
+  isRunning: false,
   actions: {
     selectCurrentLayout: function(layout){
       this.set('currentLayout', layout);
     }
   },
-  modules: [
-    {
-      title: 'Acceptance: Index',
-      count: 3,
-      tests: [
-        { title: 'It shows the app in an iframe', count: 2,
-          assertions: [
-            {text: 'iFrame should exist'},
-            {text: 'App should be in that iframe'}
-          ]
-        }
-      ]
-    },
-    {
-      title: 'component/pagination',
-      count: 4
-    },
-    {
-      title: 'JSHint - .',
-      count: 34
-    }
-  ],
+  modules: [],
   testRunBegin: function(details){
     this.set('total', details.totalTests);
-
+    this.set('isRunning', true);
     let moduleData = [];
     details.modules.forEach(function(mod){
       let moduleId = generateHash(mod.name);
       let existingModule = moduleData.findBy('moduleId', moduleId);
       if(existingModule){
         mod.tests.forEach(function(test){
-          existingModule.tests.push({
+          existingModule.get('tests').pushObject(Ember.Object.create({
             title: test.name,
             testId: test.testId
-          });
+          }));
         });
       }
       else {
-        let newModule = {
+        let newModule = Ember.Object.create({
           title: mod.name,
           moduleId: moduleId,
-          count: mod.tests.length,
           tests: []
-        };
+        });
         mod.tests.forEach(function(test){
-          newModule.tests.push({
+          newModule.get('tests').pushObject(Ember.Object.create({
             title: test.name,
             testId: test.testId
-          });
+          }));
         });
-        moduleData.push(newModule);
+        moduleData.pushObject(newModule);
       }
     });
     this.set('modules', moduleData);
+  },
+  testRunComplete: function(details){
+    this.set('isRunning', false);
+    console.log('deets', details);
+  },
+  moduleRunComplete: function(moduleData){
+    console.log('complete');
+    let moduleId = generateHash(moduleData.name);
+    let mod = this.get('modules').findBy('moduleId', moduleId);
+    mod.setProperties({
+      runtime: moduleData.runtime,
+      failed: moduleData.failed,
+      passed: moduleData.passed,
+      hasRun: true
+    });
+  },
+  testStart: function(testData){
+  },
+  testDone: function(testData){
+    console.log(testData);
+    let mod = this.get('modules').findBy('moduleId', generateHash(testData.module));
+    let test = mod.get('tests').findBy('testId', testData.testId);
+    if(testData.failed === 0){
+      this.incrementProperty('passed');
+    }
+    else {
+      this.incrementProperty('failed');
+    }
+    this.incrementProperty('elapsed', testData.duration);
+    test.setProperties({
+      duration: testData.duration,
+      failed: testData.failed,
+      passed: testData.passed,
+      skipped: testData.skipped,
+      total: testData.total,
+      assertions: testData.assertions
+    });
   },
   didInsertElement: function(){
     let component = this;
     Ember.$(document).on('qunit-begin', function(event, details){
       Ember.run(() => component.testRunBegin(details));
+    });
+    Ember.$(document).on('qunit-done', function(event, details){
+      Ember.run(() => component.testRunComplete(details));
+    });
+    Ember.$(document).on('module-done', function(event, details){
+      Ember.run(() => component.moduleRunComplete(details));
+    });
+    Ember.$(document).on('test-start', function(event, details){
+      Ember.run(() => component.testStart(details));
+    });
+    Ember.$(document).on('test-done', function(event, details){
+      Ember.run(() => component.testDone(details));
     });
   }
 });

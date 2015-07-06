@@ -1,13 +1,13 @@
 <h4>
   <a href="#" {{action "toggleExpand"}}><span class="arrow {{if isExpanded 'expanded'}}">&#10095;</span></a>
   {{test.title}}
-  <span class="assertion-count">({{test.count}})</span>
+  <span class="assertion-count">({{test.total}})</span>
 </h4>
 
 {{#if isExpanded}}
   <ul class="results-assertions">
     {{#each test.assertions as |assertion|}}
-      <li class="assertion">{{assertion.text}}</li>
+      <li class="assertion">{{assertion.message}}</li>
     {{/each}}
   </ul>
 {{/if}}

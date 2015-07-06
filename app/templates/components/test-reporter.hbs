@@ -3,20 +3,21 @@
   failed=failed
   total=total
   time=elapsed
+  running=isRunning
 }}
 
 <div class="reporter">
   <input type="text" class="filter-tests" placeholder="Filter tests">
   <ul class="results">
-    {{#each modules as |module|}}
-      {{module-results module=module class="module"}}
+    {{#each modules as |mod|}}
+      {{module-results mod=mod }}
     {{/each}}
   </ul>
 </div>
 
 {{layout-chooser currentLayout=currentLayout selectCurrentLayout=(action 'selectCurrentLayout')}}
 
-<iframe src="http://localhost:4201/tests"></iframe>
+<iframe src="http://localhost:4200/tests"></iframe>
 
 
 {{!--Could even be a hosted app?--}}

@@ -1,13 +1,19 @@
-<h2>
-  <a href="#" {{action "toggleExpand"}}><span class="arrow {{if isExpanded 'expanded'}}">&#10095;</span></a>
-  {{module.title}}
-  <span class="test-count">({{module.count}})</span>
-</h2>
+<li class="module {{if mod.hasRun 'has-run' 'not-run'}}">
+  <h2>
+    <a href="#" {{action "toggleExpand"}}><span class="arrow {{if isExpanded 'expanded'}}">&#10095;</span></a>
+    {{mod.title}}
+    <span class="test-count">
+      {{#if mod.tests.length}}
+        ({{mod.tests.length}})
+      {{/if}}
+    </span>
+  </h2>
 
-{{#if isExpanded}}
-  <ul class="results-tests">
-    {{#each module.tests as |test|}}
-      {{test-results test=test class="test"}}
-    {{/each}}
-  </ul>
-{{/if}}
+  {{#if isExpanded}}
+    <ul class="results-tests">
+      {{#each mod.tests as |test|}}
+        {{test-results test=test class="test"}}
+      {{/each}}
+    </ul>
+  {{/if}}
+</li>
