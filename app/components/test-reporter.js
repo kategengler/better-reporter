@@ -75,7 +75,8 @@ export default Ember.Component.extend({
       message: assertionData.message || (assertionData.result ? 'okay' : 'failed'),
       actual: assertionData.actual,
       expected: assertionData.expected,
-      source: assertionData.source
+      source: assertionData.source,
+      negative: assertionData.negative
     }));
   },
   testDone: function(testData){

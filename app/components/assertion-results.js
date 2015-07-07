@@ -1,8 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  expectedText: Ember.computed('assertion.expected', function(){
-    return escapeText(window.QUnit.dump.parse( this.get('assertion.expected') ));
+  expectedText: Ember.computed('assertion.expected', 'assertion.negative', function(){
+    let expected = this.get('assertion.expected');
+    if(this.get('assertion.negative')){
+      expected = 'NOT ' + expected;
+    }
+    return escapeText(window.QUnit.dump.parse( expected ));
   }),
   actualText: Ember.computed('assertion.actual', function(){
     return escapeText(window.QUnit.dump.parse( this.get('assertion.actual') ));
