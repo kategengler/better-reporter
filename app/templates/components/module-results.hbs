@@ -11,7 +11,10 @@
 
   {{#if isExpanded}}
     <ol class="results-tests">
-      {{#each mod.tests as |test|}}
+      {{#each failedTests as |test|}}
+        {{test-results test=test}}
+      {{/each}}
+      {{#each passedOrNotRunTests as |test|}}
         {{test-results test=test}}
       {{/each}}
     </ol>

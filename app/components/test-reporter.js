@@ -14,6 +14,12 @@ export default Ember.Component.extend({
     }
   },
   modules: [],
+  failedModules: Ember.computed.filterBy('modules', 'failed'),
+  passedOrNotRunModules: Ember.computed('modules.@each.failed', function(){
+    return this.get('modules').filter(function(mod){
+      return mod.get('failed') == undefined || mod.get('failed') === 0;
+    });
+  }),
   testRunBegin: function(details){
     this.set('total', details.totalTests);
     this.set('isRunning', true);
