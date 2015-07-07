@@ -1,0 +1,18 @@
+
+<span class="message">{{assertion.message}}</span>
+{{#unless assertion.result}}
+  <section class="failed-assertion-results">
+    <label>Expected:</label>
+    <pre>{{{expectedText}}}</pre>
+    <label>Actual:</label>
+    <pre>{{{actualText}}}</pre>
+    {{#if shouldShowDiff}}
+      <label>Diff:</label>
+      <pre>{{{diffText}}}</pre>
+    {{/if}}
+    {{#if assertion.source}}
+      <label>Source:</label>
+      <pre>{{assertion.source}}</pre>
+    {{/if}}
+  </section>
+{{/unless}}

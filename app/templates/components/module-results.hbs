@@ -10,10 +10,10 @@
   </h2>
 
   {{#if isExpanded}}
-    <ul class="results-tests">
+    <ol class="results-tests">
       {{#each mod.tests as |test|}}
         {{test-results test=test class="test"}}
       {{/each}}
-    </ul>
+    </ol>
   {{/if}}
 </li>

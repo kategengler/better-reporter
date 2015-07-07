@@ -10,7 +10,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  ul {
+  ol {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -182,6 +182,32 @@
 
   .not-run {
     color: lightgray;
+  }
+
+  .reporter .failed {
+    color: #ff2a00;
+  }
+
+  .reporter .failed .message {
+    font-weight: bold;
+  }
+
+  .failed-assertion-results {
+    background-color: #EFEFEF;
+    color: black;
+    padding: 1em;
+    margin: .5em;
+    border-left: 0.5em solid #ff2a00;
+  }
+
+  .failed-assertion-results label {
+    font-weight: bold;
+    color: #777;
+  }
+
+  .failed-assertion-results pre {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   }
 </style>
 {{test-reporter}}

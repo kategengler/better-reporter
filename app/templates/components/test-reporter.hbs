@@ -8,13 +8,13 @@
 
 <div class="reporter">
   <input type="text" class="filter-tests" placeholder="Filter tests">
-  <ul class="results">
+  <ol class="results">
     {{#each modules as |mod|}}
       {{module-results mod=mod }}
     {{/each}}
-  </ul>
+  </ol>
 </div>
 
 {{layout-chooser currentLayout=currentLayout selectCurrentLayout=(action 'selectCurrentLayout')}}
 
-<iframe src="http://localhost:4200/tests?module=Acceptance%3A%20Index"></iframe>
+<iframe class="tests-window" src="http://localhost:4200/tests?module=Acceptance%3A%20Index"></iframe>

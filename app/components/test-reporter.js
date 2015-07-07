@@ -38,7 +38,8 @@ export default Ember.Component.extend({
         mod.tests.forEach(function(test){
           newModule.get('tests').pushObject(Ember.Object.create({
             title: test.name,
-            testId: test.testId
+            testId: test.testId,
+            assertions: []
           }));
         });
         moduleData.pushObject(newModule);
@@ -63,6 +64,20 @@ export default Ember.Component.extend({
   },
   testStart: function(testData){
   },
+  testLog: function(assertionData){
+    console.log('log', assertionData);
+    let mod = this.get('modules').findBy('moduleId', generateHash(assertionData.module));
+    let test = mod.get('tests').findBy('testId', assertionData.testId);
+    this.incrementProperty('elapsed', assertionData.runtime);
+    test.get('assertions').pushObject(Ember.Object.create({
+      result: assertionData.result,
+      runtime: assertionData.runtime,
+      message: assertionData.message || (assertionData.result ? 'okay' : 'failed'),
+      actual: assertionData.actual,
+      expected: assertionData.expected,
+      source: assertionData.source
+    }));
+  },
   testDone: function(testData){
     console.log(testData);
     let mod = this.get('modules').findBy('moduleId', generateHash(testData.module));
@@ -73,25 +88,18 @@ export default Ember.Component.extend({
     else {
       this.incrementProperty('failed');
     }
-    this.incrementProperty('elapsed', testData.duration);
-    let assertions = testData.assertions.map(function(assertion){
-      return {
-        message: assertion.message || (assertion.result ? 'okay' : 'failed'),
-        result: assertion.result
-      };
-    });
     test.setProperties({
       duration: testData.duration,
       failed: testData.failed,
       passed: testData.passed,
       skipped: testData.skipped,
-      total: testData.total,
-      assertions: assertions
+      total: testData.total
     });
   },
   didInsertElement: function(){
     let component = this;
     Ember.$(document).on('qunit-begin', function(event, details){
+      window.QUnit = Ember.$('.tests-window')[0].contentWindow.QUnit;
       Ember.run(() => component.testRunBegin(details));
     });
     Ember.$(document).on('qunit-done', function(event, details){
