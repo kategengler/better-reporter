@@ -74,13 +74,19 @@ export default Ember.Component.extend({
       this.incrementProperty('failed');
     }
     this.incrementProperty('elapsed', testData.duration);
+    let assertions = testData.assertions.map(function(assertion){
+      return {
+        message: assertion.message || (assertion.result ? 'okay' : 'failed'),
+        result: assertion.result
+      };
+    });
     test.setProperties({
       duration: testData.duration,
       failed: testData.failed,
       passed: testData.passed,
       skipped: testData.skipped,
       total: testData.total,
-      assertions: testData.assertions
+      assertions: assertions
     });
   },
   didInsertElement: function(){
@@ -96,6 +102,9 @@ export default Ember.Component.extend({
     });
     Ember.$(document).on('test-start', function(event, details){
       Ember.run(() => component.testStart(details));
+    });
+    Ember.$(document).on('test-log', function(event, details){
+      Ember.run(() => component.testLog(details));
     });
     Ember.$(document).on('test-done', function(event, details){
       Ember.run(() => component.testDone(details));
