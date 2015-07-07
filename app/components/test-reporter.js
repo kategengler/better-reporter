@@ -25,7 +25,8 @@ export default Ember.Component.extend({
         mod.tests.forEach(function(test){
           existingModule.get('tests').pushObject(Ember.Object.create({
             title: test.name,
-            testId: test.testId
+            testId: test.testId,
+            assertions: []
           }));
         });
       }

@@ -1,15 +1,17 @@
-<h4>
-  <a href="#" {{action "toggleExpand"}}><span class="arrow {{if isExpanded 'expanded'}}">&#10095;</span></a>
-  {{test.title}}
-  <span class="assertion-count">({{test.total}})</span>
-</h4>
+<li class="test {{if test.failed 'failed'}}">
+  <h4>
+    <a href="#" {{action "toggleExpand"}}><span class="arrow {{if isExpanded 'expanded'}}">&#10095;</span></a>
+    <span class="test-title">{{test.title}}</span>
+    <span class="assertion-count">({{test.total}})</span>
+  </h4>
 
-{{#if isExpanded}}
-  <ol class="results-assertions">
-    {{#each test.assertions as |assertion|}}
-      <li class="assertion {{if assertion.result 'passed' 'failed'}}">
-        {{assertion-results assertion=assertion}}
-      </li>
-    {{/each}}
-  </ol>
-{{/if}}
+  {{#if isExpanded}}
+    <ol class="results-assertions">
+      {{#each test.assertions as |assertion|}}
+        <li class="assertion {{if assertion.result 'passed' 'failed'}}">
+          {{assertion-results assertion=assertion}}
+        </li>
+      {{/each}}
+    </ol>
+  {{/if}}
+</li>

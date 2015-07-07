@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  tagName: '',
   expectedText: Ember.computed('assertion.expected', 'assertion.negative', function(){
     let expected = this.get('assertion.expected');
     if(this.get('assertion.negative')){

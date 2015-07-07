@@ -184,11 +184,13 @@
     color: lightgray;
   }
 
-  .reporter .failed {
+  .reporter .assertion.failed .message,
+  .reporter .module.failed .module-title,
+  .reporter .test.failed .test-title {
     color: #ff2a00;
   }
 
-  .reporter .failed .message {
+  .reporter .assertion.failed .message {
     font-weight: bold;
   }
 

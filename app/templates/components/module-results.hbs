@@ -1,7 +1,7 @@
-<li class="module {{if mod.hasRun 'has-run' 'not-run'}}">
+<li class="module {{if mod.hasRun 'has-run' 'not-run'}} {{if mod.failed 'failed'}}">
   <h2>
     <a href="#" {{action "toggleExpand"}}><span class="arrow {{if isExpanded 'expanded'}}">&#10095;</span></a>
-    {{mod.title}}
+    <span class="module-title">{{mod.title}}</span>
     <span class="test-count">
       {{#if mod.tests.length}}
         ({{mod.tests.length}})
@@ -12,7 +12,7 @@
   {{#if isExpanded}}
     <ol class="results-tests">
       {{#each mod.tests as |test|}}
-        {{test-results test=test class="test"}}
+        {{test-results test=test}}
       {{/each}}
     </ol>
   {{/if}}
