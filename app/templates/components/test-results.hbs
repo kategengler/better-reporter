@@ -6,7 +6,9 @@
       <span class="arrow arrow-test">&#10095;</span>
     {{/if}}
 
-    <span class="test-title">{{test.title}}</span>
+    <span class="test-title">
+      {{#link-to (query-params test=test.testId)}}{{test.title}}{{/link-to}}
+    </span>
     <span class="assertion-count">
       {{#if test.total}}
         ({{test.total}})

@@ -15,6 +15,18 @@ export default Ember.Component.extend({
     }
   },
   modules: [],
+  testRunnerUrl: Ember.computed('test', function(){
+    let url = "/tests";
+    let params = {};
+    if(this.get('test')){
+      params.testId = this.get('test')
+    }
+    let paramStr = Ember.$.param(params);
+    if(paramStr){
+      url += '/?' + paramStr;
+    }
+    return url;
+  }),
   failedModules: Ember.computed.filterBy('modules', 'failed'),
   passedOrNotRunModules: Ember.computed('modules.@each.failed', function(){
     return this.get('modules').filter(function(mod){
