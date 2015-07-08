@@ -1,6 +1,11 @@
 <li class="test {{if test.failed 'failed'}}">
   <h4>
-    <a href="#" {{action "toggleExpand"}}><span class="arrow {{if isExpanded 'expanded'}}">&#10095;</span></a>
+    {{#if test.assertions.length}}
+      <a href="#" {{action "toggleExpand"}}><span class="arrow arrow-test {{if isExpanded 'expanded'}}">&#10095;</span></a>
+    {{else}}
+      <span class="arrow arrow-test">&#10095;</span>
+    {{/if}}
+
     <span class="test-title">{{test.title}}</span>
     <span class="assertion-count">
       {{#if test.total}}

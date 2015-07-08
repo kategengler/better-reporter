@@ -19,7 +19,7 @@ export default Ember.Component.extend({
   passedOrNotRunModules: Ember.computed('modules.@each.failed', function(){
     return this.get('modules').filter(function(mod){
       return mod.get('failed') == undefined || mod.get('failed') === 0;
-    });
+    }).sortBy('title');
   }),
   testRunBegin: function(details){
     this.set('total', details.totalTests);
@@ -95,6 +95,10 @@ export default Ember.Component.extend({
       source: assertionData.source,
       negative: assertionData.negative
     }));
+    if(!assertionData.result){
+      mod.incrementProperty('failed');
+      test.incrementProperty('failed');
+    }
   },
   testDone: function(testData){
     let mod = this.get('modules').findBy('moduleId', generateHash(testData.module));

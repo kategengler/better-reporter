@@ -186,13 +186,17 @@
 
   .reporter .assertion.failed .message,
   .reporter .module.failed .module-title,
-  .reporter .test.failed .test-title {
+  .reporter .module.running.failed .module-title,
+  .reporter .test.failed .test-title,
+  .reporter .test.running.failed .test-title {
     color: #ff2a00;
   }
 
-  .reporter .module.running .arrow,
-  .reporter .module.running .module-title {
-    color: #fbab61;
+  .reporter .module.running .arrow-module,
+  .reporter .module.running .module-title,
+  .reporter .test.running .arrow-test,
+  .reporter .test.running .test-title {
+    color: black;
   }
 
   .reporter .assertion.failed .message {
