@@ -1,4 +1,4 @@
-<li class="module {{if mod.hasRun 'has-run' 'not-run'}} {{if mod.failed 'failed'}}">
+<li class="module {{if mod.hasRun 'has-run' 'not-run'}} {{if mod.failed 'failed'}} {{if mod.running 'running'}}">
   <h2>
     <a href="#" {{action "toggleExpand"}}><span class="arrow {{if isExpanded 'expanded'}}">&#10095;</span></a>
     <span class="module-title">{{mod.title}}</span>

@@ -2,7 +2,11 @@
   <h4>
     <a href="#" {{action "toggleExpand"}}><span class="arrow {{if isExpanded 'expanded'}}">&#10095;</span></a>
     <span class="test-title">{{test.title}}</span>
-    <span class="assertion-count">({{test.total}})</span>
+    <span class="assertion-count">
+      {{#if test.total}}
+        ({{test.total}})
+      {{/if}}
+    </span>
   </h4>
 
   {{#if isExpanded}}

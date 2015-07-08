@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   total: 0,
   elapsed: 0,
   isRunning: false,
+  currentTest: null,
   actions: {
     selectCurrentLayout: function(layout){
       this.set('currentLayout', layout);
@@ -56,23 +57,32 @@ export default Ember.Component.extend({
   },
   testRunComplete: function(details){
     this.set('isRunning', false);
-    console.log('deets', details);
   },
   moduleRunComplete: function(moduleData){
-    console.log('complete');
     let moduleId = generateHash(moduleData.name);
     let mod = this.get('modules').findBy('moduleId', moduleId);
+    this.set('currenTest', null);
     mod.setProperties({
       runtime: moduleData.runtime,
       failed: moduleData.failed,
       passed: moduleData.passed,
-      hasRun: true
+      hasRun: true,
+      running: false
     });
   },
+  moduleRunBegin: function(moduleData){
+    let moduleId = generateHash(moduleData.name);
+    let mod = this.get('modules').findBy('moduleId', moduleId);
+    mod.set('running', true);
+  },
   testStart: function(testData){
+    this.set('currentTest', {
+      moduleName: testData.module,
+      title: testData.name,
+      testId: testData.testId
+    });
   },
   testLog: function(assertionData){
-    console.log('log', assertionData);
     let mod = this.get('modules').findBy('moduleId', generateHash(assertionData.module));
     let test = mod.get('tests').findBy('testId', assertionData.testId);
     this.incrementProperty('elapsed', assertionData.runtime);
@@ -87,7 +97,6 @@ export default Ember.Component.extend({
     }));
   },
   testDone: function(testData){
-    console.log(testData);
     let mod = this.get('modules').findBy('moduleId', generateHash(testData.module));
     let test = mod.get('tests').findBy('testId', testData.testId);
     if(testData.failed === 0){
@@ -112,6 +121,9 @@ export default Ember.Component.extend({
     });
     Ember.$(document).on('qunit-done', function(event, details){
       Ember.run(() => component.testRunComplete(details));
+    });
+    Ember.$(document).on('module-start', function(event, details){
+      Ember.run(() => component.moduleRunBegin(details));
     });
     Ember.$(document).on('module-done', function(event, details){
       Ember.run(() => component.moduleRunComplete(details));

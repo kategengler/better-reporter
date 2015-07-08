@@ -190,6 +190,11 @@
     color: #ff2a00;
   }
 
+  .reporter .module.running .arrow,
+  .reporter .module.running .module-title {
+    color: #fbab61;
+  }
+
   .reporter .assertion.failed .message {
     font-weight: bold;
   }
@@ -214,6 +219,11 @@
 
   pre {
     white-space: pre-wrap;
+  }
+
+  .currently-running-test {
+    font-style: italic;
+    font-weight: normal;
   }
 </style>
 {{test-reporter}}

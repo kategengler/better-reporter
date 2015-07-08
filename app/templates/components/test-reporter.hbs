@@ -7,15 +7,23 @@
 }}
 
 <div class="reporter">
-  <input type="text" class="filter-tests" placeholder="Filter tests">
-  <ol class="results">
-    {{#each failedModules as |mod|}}
-      {{module-results mod=mod}}
-    {{/each}}
-    {{#each passedOrNotRunModules as |mod|}}
-      {{module-results mod=mod}}
-    {{/each}}
-  </ol>
+  <section>
+    <input type="text" class="filter-tests" placeholder="Filter tests">
+  </section>
+  <section class="results">
+    {{#if currentTest}}
+      <small>Running:</small>
+      <h5 class="currently-running-test">{{currentTest.moduleName}} - {{currentTest.title}}</h5>
+    {{/if}}
+    <ol>
+      {{#each failedModules as |mod|}}
+        {{module-results mod=mod}}
+      {{/each}}
+      {{#each passedOrNotRunModules as |mod|}}
+        {{module-results mod=mod}}
+      {{/each}}
+    </ol>
+  </section>
 </div>
 
 {{layout-chooser currentLayout=currentLayout selectCurrentLayout=(action 'selectCurrentLayout')}}
