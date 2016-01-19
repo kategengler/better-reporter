@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'better-reporter',
     environment: environment,
-    baseURL: '/better-reporter',
+    baseURL: '/ember-cli-better-reporter',
     locationType: 'hash',
     EmberENV: {
       FEATURES: {

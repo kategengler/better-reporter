@@ -14,7 +14,8 @@ export default Ember.Component.extend({
       this.set('currentLayout', layout);
     }
   },
-  modules: [],
+  testSuiteRun: null,
+  modules: Ember.computed.alias('testSuiteRun.modules'),
   testRunnerUrl: Ember.computed('test', function(){
     let url = "/tests";
     let params = {};
@@ -42,24 +43,21 @@ export default Ember.Component.extend({
       let existingModule = moduleData.findBy('moduleId', moduleId);
       if(existingModule){
         mod.tests.forEach(function(test){
-          existingModule.get('tests').pushObject(Ember.Object.create({
+          existingModule.get('tests').pushObject(Test.create({
             title: test.name,
-            testId: test.testId,
-            assertions: []
+            testId: test.testId
           }));
         });
       }
       else {
-        let newModule = Ember.Object.create({
+        let newModule = TestModule.create({
           title: mod.name,
-          moduleId: moduleId,
-          tests: []
+          moduleId: moduleId
         });
         mod.tests.forEach(function(test){
-          newModule.get('tests').pushObject(Ember.Object.create({
+          newModule.get('tests').pushObject(Test.create({
             title: test.name,
-            testId: test.testId,
-            assertions: []
+            testId: test.testId
           }));
         });
         moduleData.pushObject(newModule);
@@ -73,7 +71,7 @@ export default Ember.Component.extend({
   moduleRunComplete: function(moduleData){
     let moduleId = generateHash(moduleData.name);
     let mod = this.get('modules').findBy('moduleId', moduleId);
-    this.set('currenTest', null);
+    this.set('currentTest', null);
     mod.setProperties({
       runtime: moduleData.runtime,
       failed: moduleData.failed,
@@ -98,7 +96,7 @@ export default Ember.Component.extend({
     let mod = this.get('modules').findBy('moduleId', generateHash(assertionData.module));
     let test = mod.get('tests').findBy('testId', assertionData.testId);
     this.incrementProperty('elapsed', assertionData.runtime);
-    test.get('assertions').pushObject(Ember.Object.create({
+    test.get('assertions').pushObject(Assertion.create({
       result: assertionData.result,
       runtime: assertionData.runtime,
       message: assertionData.message || (assertionData.result ? 'okay' : 'failed'),
@@ -154,6 +152,42 @@ export default Ember.Component.extend({
       Ember.run(() => component.testDone(details));
     });
   }
+});
+
+const TestSuiteRun = Ember.Object.extend({
+  modules: []
+});
+
+const TestModule = Ember.Object.extend({
+  title: null,
+  moduleId: null,
+  runtime: null,
+  failed: null,
+  passed: null,
+  hasRun: false,
+  running: false,
+  tests: []
+});
+
+const Test = Ember.Object.extend({
+  title: null,
+  testId: null,
+  duration: null,
+  failed: null,
+  passed: null,
+  skipped: null,
+  total: null,
+  assertions: []
+});
+
+const Assertion = Ember.Object.extend({
+  result: null,
+  runtime: null,
+  message: null,
+  actual: null,
+  expected: null,
+  source: null,
+  negative: null
 });
 
 function generateHash( name ) {
